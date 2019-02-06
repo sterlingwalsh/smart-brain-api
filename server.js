@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 app.use(bodyParser.json());
@@ -39,6 +39,11 @@ app.post('/signin', (req,res) => {
 
 app.post('/register', (req, res) => {
     const {email, name, password} = req.body;
+
+    bcrypt.hash(password, null, null, (err, hash) => {
+        console.log(hash);
+    });
+
     database.users.push({
         id:'125',
         name: name,
@@ -52,16 +57,31 @@ app.post('/register', (req, res) => {
 
 app.get('/profile/:id', (req,res) => {
     const {id} = req.params;
-    console.log(req.params);
-    database.users.forEach(user => {
-        if(user.id === id){
-            return res.json(user);
-        }
-    });
-    res.status(404).json('User not found');
+    const user = verifyUser(id);
+    user ? res.json(user) : res.status(404).json('User not found');
 });
 
+app.put('/image', (req,res) => {
+    const {id} = req.body;
+    const user = verifyUser(id);
+    if(user){
+        return res.json(++user.entries)
+    }else{
+        return res.status(400).json('User not found');
+    }
+});
 
+const verifyUser = (id) => {
+    let found = false;
+    database.users.forEach(user => {
+        console.log(typeof user.id, user.id, typeof id, id);
+        if(user.id === id) {
+            console.log(true);
+            found = user;
+        }
+    });
+    return found;
+}
 
 const port = 3000;
 app.listen(port, () => {
