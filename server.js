@@ -34,8 +34,7 @@ app.get('/profile/:id', (req, res) => profile.handleProfileGet(req, res, db));
 app.put('/image', (req, res) => image.handleImage(req, res, db));
 app.post('/imageurl', (req, res) => {image.handleApiCall(req, res)});
 
-const port = 3001;
-app.listen(port, () => {
-    console.log("server ready on", port)
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`server ready on ${process.env.PORT}`)
 });
 
