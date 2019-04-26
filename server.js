@@ -9,11 +9,22 @@ const signin = require('./controllers/signin')
 const profile = require('./controllers/profile')
 const image = require('./controllers/image')
 
+// const db = knex({
+//     client: 'pg',
+//     connection:{
+//         connectionString: process.env.DATABASE_URL || '127.0.0.1',
+//         ssl:true,
+//     }
+// });
+
 const db = knex({
     client: 'pg',
     connection:{
-        connectionString: process.env.DATABASE_URL,
-        ssl:true,
+        host: '127.0.0.1',
+        // ssl:true,
+        user: 'postgres',
+        password: 'superPW',
+        database: 'smart-brain',
     }
 });
 
@@ -32,7 +43,9 @@ app.get('/profile/:id', (req, res) => profile.handleProfileGet(req, res, db));
 app.put('/image', (req, res) => image.handleImage(req, res, db));
 app.post('/imageurl', (req, res) => {image.handleApiCall(req, res)});
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`server ready on ${process.env.PORT}`)
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+    console.log(`server ready on ${port}`)
 });
 
