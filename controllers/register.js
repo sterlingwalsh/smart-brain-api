@@ -20,8 +20,9 @@ const handleRegister = (req, res, db, bcrypt) => {
                         joined: new Date()
                     })
                     .then(user => {
+                        user = user[0];
                         dbTools.getRank(db, user)
-                        .then(user => res.json(user[0]));
+                        .then(user => res.json(user));
                     })
             })
             .then(trx.commit)
