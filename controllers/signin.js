@@ -14,14 +14,10 @@ const handleSignin = (req, res, db, bcrypt) => {
                     .where({'email':req.body.email})
                     .then(user => {
                         user = user[0];
-                        dbTools.getRank(db, user.entries)
-                        .then(rank => {
-                            user.rank = rank;
-                            return user;
-                        })
+                        dbTools.getRank(db, user)
                         .then(user => res.json(user));
                     })
-                .catch(err => res.status(400).json('unable to get user'));
+                .catch(err => {console.log(err); res.status(400).json('unable to get user')});
             }else{
                 res.status(400).json("wrong credentials");
             }

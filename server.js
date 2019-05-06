@@ -9,24 +9,24 @@ const signin = require('./controllers/signin')
 const profile = require('./controllers/profile')
 const image = require('./controllers/image')
 
-// const db = knex({
-//     client: 'pg',
-//     connection:{
-//         connectionString: process.env.DATABASE_URL || '127.0.0.1',
-//         ssl:true,
-//     }
-// });
-
 const db = knex({
     client: 'pg',
     connection:{
-        host: '127.0.0.1',
-        // ssl:true,
-        user: 'postgres',
-        password: 'superPW',
-        database: 'smart-brain',
+        connectionString: process.env.DATABASE_URL,
+        ssl:true,
     }
 });
+
+// const db = knex({
+//     client: 'pg',
+//     connection:{
+//         host: '127.0.0.1',
+//         // ssl:true,
+//         user: '',
+//         password: '',
+//         database: '',
+//     }
+// });
 
 const app = express();
 
