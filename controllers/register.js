@@ -1,3 +1,5 @@
+const dbTools = require('./dbTools');
+
 const handleRegister = (req, res, db, bcrypt) => {
     const {email, name, password} = req.body;
     if (!email || !name || !password){
@@ -18,8 +20,8 @@ const handleRegister = (req, res, db, bcrypt) => {
                         joined: new Date()
                     })
                     .then(user => {
-                        console.log(user[0]);
-                        res.json(user[0]);
+                        dbTools.getRank(db, user)
+                        .then(user => res.json(user[0]));
                     })
             })
             .then(trx.commit)
